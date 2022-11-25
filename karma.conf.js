@@ -31,6 +31,7 @@ module.exports = function (config) {
         'src/**/*.(ts|js)',
         // Then specify "do not touch" patterns (note `!` sign on the beginning of each statement)
         '!src/main.(ts|js)',
+        '!src/test.(ts|js)',
         '!src/**/*.spec.(ts|js)',
         '!src/**/*.module.(ts|js)',
         '!src/**/environment*.(ts|js)'
