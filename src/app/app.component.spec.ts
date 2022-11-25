@@ -1,4 +1,4 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, inject, TestBed} from '@angular/core/testing';
 import {RouterTestingModule} from '@angular/router/testing';
 import {AppComponent} from './app.component';
 import {ApiEntry, AppService} from "./app.service";
@@ -7,6 +7,7 @@ import {HttpClientTestingModule} from "@angular/common/http/testing";
 import SpyObj = jasmine.SpyObj;
 
 describe('AppComponent', () => {
+  let appServiceSpy: SpyObj<AppService>;
   let fixture: ComponentFixture<AppComponent>;
   let appComponent: AppComponent;
   let apiEntry: ApiEntry = {
@@ -21,7 +22,7 @@ describe('AppComponent', () => {
   }
   let getPublicApisSpy: jasmine.Spy<AppService["getPublicApis"]>;
   beforeEach(async () => {
-    const appServiceSpy: SpyObj<AppService> = jasmine.createSpyObj('AppService', ['getPublicApis']);
+    appServiceSpy = jasmine.createSpyObj('AppService', ['getPublicApis']);
     getPublicApisSpy = appServiceSpy.getPublicApis.and.returnValue(of(Array.of(apiEntry)));
     let testBed = TestBed.configureTestingModule({
       imports: [
@@ -60,4 +61,11 @@ describe('AppComponent', () => {
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelector('h1')?.textContent).toEqual('Api Entries');
   });
+
+  it('should render an item', () => {
+    appComponent.ngOnInit(); // initialize component
+    fixture.detectChanges(); // update fixture
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.querySelector('.entry-name')?.textContent).toEqual('Name');
+  })
 });

@@ -10,6 +10,7 @@ module.exports = function (config) {
       require('karma-chrome-launcher'),
       require('karma-jasmine-html-reporter'),
       require('karma-coverage'),
+      require('karma-sabarivka-reporter'),
       require('@angular-devkit/build-angular/plugins/karma')
     ],
     client: {
@@ -25,6 +26,15 @@ module.exports = function (config) {
       suppressAll: true // removes the duplicated traces
     },
     coverageReporter: {
+      include: [
+        // Specify include pattern(s) first
+        'src/**/*.(ts|js)',
+        // Then specify "do not touch" patterns (note `!` sign on the beginning of each statement)
+        '!src/main.(ts|js)',
+        '!src/**/*.spec.(ts|js)',
+        '!src/**/*.module.(ts|js)',
+        '!src/**/environment*.(ts|js)'
+      ],
       dir: require('path').join(__dirname, './coverage/testing'),
       subdir: '.',
       reporters: [
@@ -32,7 +42,7 @@ module.exports = function (config) {
         { type: 'text-summary' }
       ]
     },
-    reporters: ['progress', 'kjhtml'],
+    reporters: ['progress', 'kjhtml', 'sabarivka'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
